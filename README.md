@@ -112,18 +112,18 @@ CosmClient cosmclient(client);
 ```c
 Serial.print("My return is: ");
 
-float float_value = datastreams[0].getFloat();        // Retrieve a float datastream
-int int_value = datastreams[1].getInt();              // Retrieve an int datastream
-String string_value = datastreams[2].getString();     // Retrieve a String datastream
-char[140] char_buffer = datastreams[3].getBuffer();   // Retrieve a char buffer datastream
+float float_value = datastreams[0].getFloat();        // Retrieve the latest datapoint in a float datastream
+int int_value = datastreams[1].getInt();              // Retrieve the latest datapoint in an int datastream
+String string_value = datastreams[2].getString();     // Retrieve the latest datapoint in a String datastream
+char[140] char_buffer = datastreams[3].getBuffer();   // Retrieve the latest datapoint in a char buffer datastream
 ```
 
 ###Update a Datapoint
 
 The library makes it easy to upload data as strings or numbers.
 ```c
-datastreams[0].setFloat(1.5);
-datastreams[1].setInt(23);
-datastreams[2].setString("Pretty comfy temperature");
-datastreams[3].setBuffer("But quite dry");
+datastreams[0].setFloat(1.5);                           // Push a float datapoint
+datastreams[1].setInt(23);                              // Push an int datapoint
+datastreams[2].setString("Pretty comfy temperature");   // Push a String datapoint
+datastreams[3].setBuffer("But quite dry");              // Push a char buffer datapoint
 ```
