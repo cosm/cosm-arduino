@@ -3,7 +3,7 @@ Cosm Arduino library
 
 A library for Arduino to make it easier to talk to Cosm (the service formerly known as Pachube).
 
-This library **requires** the HTTP Client library in https://github.com/arduino/Arduino/pull/69
+This library **requires** the HTTP Client library, found at https://github.com/arduino/Arduino/pull/69
 (which should be included in Arduino 1.0.1.)
 
 ##Features
