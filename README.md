@@ -3,7 +3,7 @@ Cosm Arduino library
 
 A library for Arduino to make it easier to talk to Cosm (the service formerly known as Pachube).
 
-This library **requires** the HTTP Client library at https://github.com/amcewen/HttpClient, (which should be included in Arduino 1.0.1.)
+This library **requires** the HTTP Client library at https://github.com/amcewen/HttpClient
 
 ##Features
 
@@ -27,10 +27,13 @@ Look no further!  If you want a quick example, connect your Arduino board to you
 char cosmKey[] = "YOUR_COSM_API_KEY";
 // Should be something like "HsNiCoe_Es2YYWltKeRFPZL2xhqSAKxIV21aV3lTL2h5OD0g"
 #define FEED_ID XXXXXX 
-// Should be something like 104097
+// The 3 to 6-digit number (like 504 or 104097), that identifies the Cosm Feed you're using
 ```
 
 **2. Create IDs for your datastreams as `char` arrays (or `String` objects for a `String` datastream)**
+
+In Cosm, the name of a datastream is known as the **Stream ID**.  In the example below, we'll give the datastreams names by setting their **Stream IDs** as "humidity", "temperature", "my_thoughts_on_the_temperature" and "more_thoughts".
+
 ```c
 // For datastreams of floats:
 char myFloatStream[] = "humidity";
@@ -49,6 +52,7 @@ char bufferValue[bufferSize];                 // the array of chars itself
 Using char buffers reduces the memory footprint of your sketch by not requiring the String library.  Also, using char buffers allows you to specify exactly how much memory is used for a datapoint, so you don't accidentally overflow the Arduino's mem capacity with a huge string datapoint.  It's a little bit harder to understand for beginners -- consult CosmDatastream.cpp for info.
 
 **3. Create an array of `CosmDatastream` objects**
+
 ```c
 CosmDatastream datastreams[] = {
   // Float datastreams are set up like this:
@@ -61,25 +65,29 @@ CosmDatastream datastreams[] = {
   CosmDatastream(myCharBufferStream, strlen(myCharBufferStream), DATASTREAM_BUFFER, bufferValue, bufferSize),
 };
 ```
+
 `CosmDatastream` objects can contains some or all of the following variables, depending on what type of datapoints are in the datastream (see above example for which are required):
 
 | | Variable | Type | Description |
 |---|---|:---:|---|
-| 1     | aIdBuffer | char*|char array name of the char datastream
-| 2     | aIdBufferLength |  int |for `int` or `float` datastreams only: the number of  `char` in the datastream name
+| 1     | aIdBuffer | char*|`char` array containing the ID of the datastream
+| 2     | aIdBufferLength |  int |for `int` or `float` datastreams only: the number of  `char` in the datastream's ID
 | 3 | aType | int |**0** or DATASTREAM_STRING for a String; **1** or DATASTREAM_BUFFER for a char buffer; **2** or DATASTREAM_INT for an int; **3** or DATASTREAM_FLOAT for a float
 | 4 | aValueBuffer | char* | A `char` array, _aValueBufferLength_ elements long
 | 5 | aValueBufferLength | int | The number of elements in the `char` array
 
     
 **4. Last, wrap this array of `CosmDatastream` objects into a `CosmFeed`**
+
+Unlike the **Stream ID**, which is what a _Datastream's_ name is stored as, the **ID** of a _Feed_ is a number which is used to uniquely identify which Cosm Feed you are addressing.  For  example, a Feed **ID** of 504 would mean that you were using the feed at cosm.com/feeds/504.
+
 ```c	
 CosmFeed feed(FEED_ID, datastreams, 4);
 ```
 
 | | Variable | Type | Description |
 |---|---|:---:|---|
-| 1     | aID | unsigned long | Feed number, as defined at the top of your sketch
+| 1     | aID | unsigned long | The Feed's **ID**, as defined at the top of your sketch
 | 2     | aDatastreams | CosmDatastream* |Your `CosmDatastream` array
 | 3 | aDatastreamsCount | int | How many datastreams are in the array
 
@@ -94,7 +102,7 @@ CosmClient cosmclient(client);
 ```
 
 
-If you're on wireless, be sure to enter your ssid and password as the library requires, and then:
+If you're on wireless, be sure to enter your SSID and password as the library requires, and then:
 >If you're using the built-in WiFi library:
 ```c
 WiFiClient client;
